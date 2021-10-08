@@ -43,10 +43,11 @@ class FileReader:
 
 
 class Reader:
-    def __init__(self, folder_or_file, step=1, ext=None):
+    def __init__(self, folder_or_file, step=1, ext=None, return_detail=False):
         self.folder = folder_or_file
         self.step = step
         self.ext = ext
+        self.return_detail = return_detail
 
     def __call__(self):
         if os.path.isdir(self.folder):
@@ -60,9 +61,9 @@ class Reader:
                         reader = FileReader(file_or_video_name, self.ext)
 
                     for cnt, filename, image in reader():
-                        yield cnt, file_or_video_name, filename, image
+                        yield (cnt, file_or_video_name, filename, image) if self.return_detail else image
         else:
             reader = FileReader(self.folder, self.step, self.ext)
             for cnt, filename, image in reader():
-                yield cnt, self.folder, filename, image
+                yield (cnt, self.folder, filename, image) if self.return_detail else image
 
