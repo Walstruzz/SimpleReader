@@ -1,0 +1,9 @@
+README.md
+SimpleReader.py
+setup.py
+SimpleReader.egg-info/PKG-INFO
+SimpleReader.egg-info/SOURCES.txt
+SimpleReader.egg-info/dependency_links.txt
+SimpleReader.egg-info/not-zip-safe
+SimpleReader.egg-info/requires.txt
+SimpleReader.egg-info/top_level.txt
