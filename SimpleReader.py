@@ -3,6 +3,10 @@ import numpy as np
 import os
 
 
+def _get_lower_ext(name):
+    return os.path.splitext(name)[-1].lower()
+    
+    
 class VideoReader:
     def __init__(self, filename, step=1):
         self.filename = filename
@@ -24,7 +28,7 @@ class ImageReader:
 
     def __call__(self):
         for i in range(1):
-            if os.path.splitext(self.filename)[-1].lower() in self.ext:
+            if _get_lower_ext(self.filename) in self.ext:
                 image = imageio.imread(self.filename)
                 yield 1, self.filename, np.array(image)[..., ::-1]
 
@@ -33,7 +37,7 @@ class FileReader:
     def __init__(self, filename, step=1, ext=None):
         self.filename = filename
         assert os.path.isfile(filename)
-        if os.path.splitext(filename)[-1] in {".avi", ".mp4"}:
+        if _get_lower_ext(filename) in {".avi", ".mp4", ".ts"}:
             self.reader = VideoReader(self.filename, step=step)
         else:
             self.reader = ImageReader(self.filename, ext)
@@ -54,8 +58,8 @@ class Reader:
             for root, _, files in os.walk(self.folder, False):
                 for file in files:
                     file_or_video_name = os.path.join(root, file)
-                    ext = os.path.splitext(file_or_video_name)[-1].lower()
-                    if ext in {".mp4", ".avi"}:
+                    ext = _get_lower_ext(file_or_video_name)
+                    if ext in {".mp4", ".avi", ".ts"}:
                         reader = VideoReader(file_or_video_name, step=self.step)
                     else:
                         reader = FileReader(file_or_video_name, self.ext)
