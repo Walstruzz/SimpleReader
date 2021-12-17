@@ -7,7 +7,7 @@ from SimpleReader import Reader
 
 
 reader = Reader("filename/folder/")
-for cnt, folder, filename, image in reader():
+for image in reader():
     # image: (H, W, C), BGR format
     pass 
 ```
