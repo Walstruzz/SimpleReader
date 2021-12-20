@@ -16,7 +16,11 @@ class VideoReader:
         self.ext = ext or self.default_ext()
         self.filename = filename
         if _get_lower_ext(self.filename) in self.ext:
-            self.capture = imageio.get_reader(filename, "ffmpeg")
+            try:
+                self.capture = imageio.get_reader(filename, "ffmpeg")
+            except:
+                print("Could not parse {}".format(filename))
+                self.capture = []
         else:
             self.capture = []
         self.step = step
